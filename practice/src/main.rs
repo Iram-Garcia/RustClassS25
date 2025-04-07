@@ -1,30 +1,39 @@
 
-    struct Car {
-        body: String,
-        year: u16,
-        color: String,
+// Define our data structure
+struct Student {
+    major: String,
+}
+
+ // Higher order functions update majors
+
+ fn update_majors(collection: &mut Vec<Student>, behavior: fn(&mut Student, String), major: String) {
+    for item in collection.iter_mut() {
+        behavior(item, major.clone());
     }
-    impl Car {
-       fn new(b: String, y: u16, c: String) -> Car {
-            Car {
-                body: b,
-                year: y,
-                color: c,
-            }
-       } 
-    }
-    //function to print car
-    fn get_car(car: &Car) {
-        println!("Car model: {} year: {} color: {}", car.body, car.year, car.color);
-    }
+ }
+
+ // First Order functions, assign_major(student,major_declared)
+ fn assign_major(s: &mut Student,major:String){
+        s.major = major;
+ }
+
+
+
 fn main() {
+    //temporry assign
+        let mut _items = vec![
+            Student { major: String::from("") },
+            Student { major: String::from("") },
+            Student { major: String::from("") },
+        ];
+    
+    //Call the higher order function that we created
+    update_majors(&mut _items, assign_major, String::from("Computer Science"));
 
-    let my_car = Car {
-        body: "Sedan".to_string(),
-        year: 2021,
-        color: "Black".to_string(),
+    //Loop through the collection and print the majors
 
-    };
-    get_car(&my_car);
-    println!("My printed car model: {} year: {} color: {}", my_car.body, my_car.year, my_car.color);
+    for item in _items.iter() {
+        println!("Major: {}", item.major);
+    }
+
 }
